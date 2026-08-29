@@ -94,7 +94,7 @@ export class App implements OnInit {
     'pageSize',
   ];
 
-  delayMS = 500;
+  delayMS = 1000;
 
   paginationNumberFormatter: PaginationNumberFormatter = (
     params: PaginationNumberFormatterParams,
@@ -145,7 +145,7 @@ export class App implements OnInit {
         let offset = 0;
 
         this.apiService
-          .getHdbResaleChildDataSet(datasetId, 1, offset)
+          .getHdbResaleChildDataSet(datasetId, 1, offset, this.delayMS)
           .subscribe((data: ResaleHdbChildData) => {
             let totalRecords: number = data.result.total;
 
@@ -159,7 +159,7 @@ export class App implements OnInit {
     let offset = 0;
 
     this.apiService
-      .getHdbResaleChildDataSet(datasetId, 1, offset)
+      .getHdbResaleChildDataSet(datasetId, 1, offset, this.delayMS)
       .subscribe((data: ResaleHdbChildData) => {
         let totalRecords: number = data.result.total;
 
@@ -190,7 +190,7 @@ export class App implements OnInit {
 
       setTimeout(() => {
         this.apiService
-          .getHdbResaleChildDataSet(datasetId, limit, offset)
+          .getHdbResaleChildDataSet(datasetId, limit, offset, this.delayMS)
           .subscribe((childData: ResaleHdbChildData) => {
             const records = childData.result.records;
             console.log(records.length);

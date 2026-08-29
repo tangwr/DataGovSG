@@ -21,13 +21,13 @@ export class ApiService {
     return this.httpClient.get<ResaleHdbResponse>(url.replace("{}", collection_id.toString()));
   }
 
-  getHdbResaleChildDataSet(dataset_id: string, limit: number, offset: number):Observable<ResaleHdbChildData> {
+  getHdbResaleChildDataSet(dataset_id: string, limit: number, offset: number, delay: number):Observable<ResaleHdbChildData> {
     const headers = new HttpHeaders({
       'x-api-key': 'v2:6390b16c3387e79cb2a9860b2b558d02015f875a4c7f01c4d3f8a0e40ff6475c:LDlasM-PUEpdOJHepZ_TDRnx-oMXdTsG'
     });
 
     let url = "https://data.gov.sg/api/action/datastore_search?resource_id="  + dataset_id + "&limit=" + limit + "&offset=" + offset
-    return timer(500).pipe(
+    return timer(delay).pipe(
       switchMap(() => this.httpClient.get<ResaleHdbChildData>(url, { headers }))
     );
   }
