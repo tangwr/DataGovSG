@@ -94,6 +94,8 @@ export class App implements OnInit {
     'pageSize',
   ];
 
+  delayMS = 500;
+
   paginationNumberFormatter: PaginationNumberFormatter = (
     params: PaginationNumberFormatterParams,
   ) => {
@@ -180,7 +182,7 @@ export class App implements OnInit {
   async loadApi(totalRecords: number, datasetId: string) {
     let offset = 0;
     const limit = 10000;
-    const delay = 500; // 10 second
+    const delay = this.delayMS;
 
     while (offset < totalRecords) {
       await this.setDelay(delay);
