@@ -27,7 +27,7 @@ export class ApiService {
     });
 
     let url = "https://data.gov.sg/api/action/datastore_search?resource_id="  + dataset_id + "&limit=" + limit + "&offset=" + offset
-    return timer(1000).pipe(
+    return timer(500).pipe(
       switchMap(() => this.httpClient.get<ResaleHdbChildData>(url, { headers }))
     );
   }
