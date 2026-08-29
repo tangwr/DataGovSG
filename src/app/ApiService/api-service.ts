@@ -27,6 +27,7 @@ export class ApiService {
     });
 
     let url = "https://data.gov.sg/api/action/datastore_search?resource_id="  + dataset_id + "&limit=" + limit + "&offset=" + offset
+    console.log(url);
     return timer(delay).pipe(
       switchMap(() => this.httpClient.get<ResaleHdbChildData>(url, { headers }))
     );
@@ -42,7 +43,7 @@ export class ApiService {
           header: true,
           skipEmptyLines: true
         });
-        //console.log(result.data);
+        console.log("csvFile: " + csvFile + " | Records: " + result.data.length);
         return result.data;
       })
     );

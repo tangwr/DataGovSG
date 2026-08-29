@@ -94,8 +94,8 @@ export class App implements OnInit {
     'pageSize',
   ];
 
-  delayMS = 2000;
-  combinedRecords = 0;
+  delayMS = 1500;
+  combinedRecords = signal<number>(0);
 
   paginationNumberFormatter: PaginationNumberFormatter = (
     params: PaginationNumberFormatterParams,
@@ -151,15 +151,13 @@ export class App implements OnInit {
             let totalRecords: number = data.result.total;
 
             console.log('Dataset Id: ' + datasetId + ' | Total: ' + totalRecords);
-            this.combinedRecords += totalRecords;
-            //this.loadApi(totalRecords, datasetId);
+            this.combinedRecords.update((value) => value + totalRecords);
           });
       }
     }
 
     const datasetId = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
     let offset = 0;
-    
 
     this.apiService
       .getHdbResaleChildDataSet(datasetId, 1, offset, this.delayMS)
@@ -180,6 +178,7 @@ export class App implements OnInit {
         });
       }
     });
+    
   }
 
   async loadApi(totalRecords: number, datasetId: string) {
@@ -203,9 +202,9 @@ export class App implements OnInit {
             ]);
             this.rowData.update((currentArray) => [...(currentArray ?? []), ...records]);
           });
-      }, delay);
 
-      offset += limit;
+        offset += limit;
+      }, delay);
     }
   }
 }

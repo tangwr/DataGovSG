@@ -1,14 +1,17 @@
 
 <h1>HDB Resale Data</h1>
 Delay {{delayMS}} ms
-Combined Records: {{combinedRecords}}
+<br><br>
+Combined Records: {{combinedRecords()}}
+<br><br>
+
 @if (apiResponse() === undefined) {
   <p>Loading...</p>
 } 
 @else {
   @for (item of apiResponse()?.data?.collectionMetadata?.childDatasets || []; track item) {
     <div>
-      <h3>{{ item }}</h3>
+      <!-- <h3>{{ item }}</h3> -->
     </div>
   }
 }
@@ -25,7 +28,7 @@ Combined Records: {{combinedRecords}}
   {{ apiChildResponseRecordArray()?.length }} records found.
 }
 
-
+<!--
 <div>
   <input
     type="text"
@@ -33,6 +36,7 @@ Combined Records: {{combinedRecords}}
     (input)="onSearch($event)"
   />
 </div>
+-->
 
 <div class="content" style="width: 100%; height: 100%;">
   <!-- The AG Grid component, with Dimensions, CSS Theme, Row Data, and Column Definition -->
