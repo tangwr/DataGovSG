@@ -26,7 +26,7 @@ export class ApiService {
       'x-api-key': 'v2:6390b16c3387e79cb2a9860b2b558d02015f875a4c7f01c4d3f8a0e40ff6475c:LDlasM-PUEpdOJHepZ_TDRnx-oMXdTsG'
     });
 
-    let url = "/api/action/datastore_search?resource_id="  + dataset_id + "&limit=" + limit + "&offset=" + offset
+    let url = "https://data.gov.sg/api/action/datastore_search?resource_id="  + dataset_id + "&limit=" + limit + "&offset=" + offset
     return timer(1).pipe(
       switchMap(() => this.httpClient.get<ResaleHdbChildData>(url, { headers }))
     );
