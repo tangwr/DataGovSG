@@ -95,6 +95,7 @@ export class App implements OnInit {
   ];
 
   delayMS = 2000;
+  combinedRecords = 0;
 
   paginationNumberFormatter: PaginationNumberFormatter = (
     params: PaginationNumberFormatterParams,
@@ -150,6 +151,7 @@ export class App implements OnInit {
             let totalRecords: number = data.result.total;
 
             console.log('Dataset Id: ' + datasetId + ' | Total: ' + totalRecords);
+            this.combinedRecords += totalRecords;
             //this.loadApi(totalRecords, datasetId);
           });
       }
@@ -157,6 +159,7 @@ export class App implements OnInit {
 
     const datasetId = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
     let offset = 0;
+    
 
     this.apiService
       .getHdbResaleChildDataSet(datasetId, 1, offset, this.delayMS)
