@@ -180,7 +180,7 @@ export class App implements OnInit {
   async loadApi(totalRecords: number, datasetId: string) {
     let offset = 0;
     const limit = 10000;
-    const delay = 0; // 10 second
+    const delay = 1000; // 10 second
 
     while (offset < totalRecords) {
       await this.setDelay(delay);
