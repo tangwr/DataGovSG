@@ -5,6 +5,7 @@ import { ResaleHdbResponse, ResaleHdbChildData, ResaleHdbChildRecord } from '../
 import { timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import Papa from 'papaparse';
+import {environment} from '../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class ApiService {
 
   getHdbResaleChildDataSet(dataset_id: string, limit: number, offset: number, delay: number):Observable<ResaleHdbChildData> {
     const headers = new HttpHeaders({
-      'x-api-key': 'v2:6390b16c3387e79cb2a9860b2b558d02015f875a4c7f01c4d3f8a0e40ff6475c:LDlasM-PUEpdOJHepZ_TDRnx-oMXdTsG'
+      'x-api-key': environment.apiKey
     });
 
     let url = "https://data.gov.sg/api/action/datastore_search?resource_id="  + dataset_id + "&limit=" + limit + "&offset=" + offset
