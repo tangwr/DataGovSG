@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://data.gov.sg",
+    "secure": true,
+    "changeOrigin": true
+  }
+}
