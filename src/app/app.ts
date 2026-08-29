@@ -94,7 +94,7 @@ export class App implements OnInit {
     'pageSize',
   ];
 
-  delayMS = 1000;
+  delayMS = 2000;
 
   paginationNumberFormatter: PaginationNumberFormatter = (
     params: PaginationNumberFormatterParams,
