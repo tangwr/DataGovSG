@@ -120,6 +120,7 @@ export class App implements OnInit {
   apiChildResponse = signal<ResaleHdbChildData | null>(null);
   apiChildResponseArray = signal<ResaleHdbChildData[] | null>(null);
   apiChildResponseRecordArray = signal<ResaleHdbChildRecord[] | null>(null);
+  apiChildResponseRecordDatasetId = signal<string | null>(null);
 
   ngOnInit() {
     this.loadHdbResaleData();
@@ -196,6 +197,7 @@ export class App implements OnInit {
           .subscribe((childData: ResaleHdbChildData) => {
             const records = childData.result.records;
             console.log(records.length);
+            this.apiChildResponseRecordDatasetId.set(childData.result.resource_id);
             this.apiChildResponseRecordArray.update((currentArray) => [
               ...(currentArray ?? []),
               ...records,
