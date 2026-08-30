@@ -1,7 +1,13 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ApiService } from './ApiService/api-service';
-import { ResaleHdbChildData, ResaleHdbChildRecord, ResaleHdbResponse } from './Interface/interface';
+import {
+  HdbPropertyInformationInterface,
+  HdbPropertyInformationRecordInterface,
+  ResaleHdbChildDataInterface,
+  ResaleHdbChildRecordInterface,
+  ResaleHdbResponseInterface,
+} from './Interface/interface';
 import { AllCommunityModule, ModuleRegistry, enableDevValidations } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import {
@@ -14,7 +20,7 @@ import {
   PaginationPanel,
 } from 'ag-grid-community';
 import { firstValueFrom } from 'rxjs';
-import { MapComponent } from "./map/map";
+import { MapComponent } from './map/map';
 // Enable extended validations only for development
 
 // Register all Community features
@@ -58,10 +64,10 @@ export class App implements OnInit {
   ];
   */
 
-  rowData = signal<ResaleHdbChildRecord[] | null>(null);
+  rowData = signal<ResaleHdbChildRecordInterface[] | null>(null);
 
-  colDefs: ColDef<ResaleHdbChildRecord>[] = [
-    { field: '_id', headerName: 'ID' },
+  colDefs: ColDef<ResaleHdbChildRecordInterface>[] = [
+    //{ field: '_id', headerName: 'ID' },
     { field: 'month', headerName: 'Month' },
     { field: 'town', headerName: 'Town' },
     { field: 'flat_type', headerName: 'Flat Type' },
@@ -75,6 +81,36 @@ export class App implements OnInit {
     { field: 'resale_price', headerName: 'Resale Price' },
   ];
 
+  rowHdbPropertyInfoData = signal<HdbPropertyInformationRecordInterface[] | null>(null);
+
+  colDefHdbPropertyInfoData: ColDef<HdbPropertyInformationRecordInterface>[] = [
+    //{ field: '_id', headerName: 'ID' },
+    { field: 'blk_no', headerName: 'Blk No' },
+    { field: 'street', headerName: 'Street' },
+    { field: 'max_floor_lvl', headerName: 'Max Floor Lvl' },
+    { field: 'year_completed', headerName: 'Year Completed' },
+    { field: 'residential', headerName: 'Residential' },
+    { field: 'commercial', headerName: 'Commercial' },
+    { field: 'market_hawker', headerName: 'Market Hawker' },
+    { field: 'miscellaneous', headerName: 'Miscellaneous' },
+    { field: 'multistorey_carpark', headerName: 'Multistorey Carpark' },
+    { field: 'precinct_pavilion', headerName: 'Precinct Pavilion' },
+    { field: 'bldg_contract_town', headerName: 'Bldg Contract Town' },
+    { field: 'total_dwelling_units', headerName: 'Total Dwelling Units' },
+    { field: '1room_sold', headerName: '1 Room Sold' },
+    { field: '2room_sold', headerName: '2 Room Sold' },
+    { field: '3room_sold', headerName: '3 Room Sold' },
+    { field: '4room_sold', headerName: '4 Room Sold' },
+    { field: '5room_sold', headerName: '5 Room Sold' },
+    { field: 'exec_sold', headerName: 'Exec Sold' },
+    { field: 'multigen_sold', headerName: 'Multigen Sold' },
+    { field: 'studio_apartment_sold', headerName: 'Studio Apartment Sold' },
+    { field: '1room_rental', headerName: '1 Room Rental' },
+    { field: '2room_rental', headerName: '2 Room Rental' },
+    { field: '3room_rental', headerName: '3 Room Rental' },
+    { field: 'other_room_rental', headerName: 'Other Room Rental' },
+  ];
+
   defaultColDef: ColDef = {
     flex: 1,
     sortable: true,
@@ -83,7 +119,7 @@ export class App implements OnInit {
     floatingFilter: true,
   };
 
-  paginationPageSize = 10;
+  paginationPageSize = 100;
 
   paginationPageSizeSelector: number[] | boolean = [
     10, 20, 30, 40, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000,
@@ -116,19 +152,20 @@ export class App implements OnInit {
 
   constructor(private apiService: ApiService) {}
 
-  apiResponse = signal<ResaleHdbResponse | null>(null);
+  apiResponse = signal<ResaleHdbResponseInterface | null>(null);
   //apiResponse!:ResaleHdbResponse
-  apiChildResponse = signal<ResaleHdbChildData | null>(null);
-  apiChildResponseArray = signal<ResaleHdbChildData[] | null>(null);
-  apiChildResponseRecordArray = signal<ResaleHdbChildRecord[] | null>(null);
+  apiChildResponse = signal<ResaleHdbChildDataInterface | null>(null);
+  apiChildResponseArray = signal<ResaleHdbChildDataInterface[] | null>(null);
+  apiChildResponseRecordArray = signal<ResaleHdbChildRecordInterface[] | null>(null);
   apiChildResponseRecordDatasetId = signal<string | null>(null);
 
   ngOnInit() {
     this.loadHdbResaleData();
+    this.loadHdbPropertyInfo();
   }
 
   loadHdbResaleData() {
-    this.apiService.getHdbResaleData().subscribe((data: ResaleHdbResponse) => {
+    this.apiService.getHdbResaleData().subscribe((data: ResaleHdbResponseInterface) => {
       this.apiResponse.set(data);
       console.log(data.data.collectionMetadata.childDatasets);
       console.log('apiResponse loaded');
@@ -149,7 +186,7 @@ export class App implements OnInit {
 
         this.apiService
           .getHdbResaleChildDataSet(datasetId, 1, offset, this.delayMS)
-          .subscribe((data: ResaleHdbChildData) => {
+          .subscribe((data: ResaleHdbChildDataInterface) => {
             let totalRecords: number = data.result.total;
 
             console.log('Dataset Id: ' + datasetId + ' | Total: ' + totalRecords);
@@ -163,7 +200,7 @@ export class App implements OnInit {
 
     this.apiService
       .getHdbResaleChildDataSet(datasetId, 1, offset, this.delayMS)
-      .subscribe((data: ResaleHdbChildData) => {
+      .subscribe((data: ResaleHdbChildDataInterface) => {
         let totalRecords: number = data.result.total;
 
         console.log('Dataset Id: ' + datasetId + ' | Total: ' + totalRecords);
@@ -173,14 +210,15 @@ export class App implements OnInit {
     this.apiService.getCsvFiles().subscribe((files) => {
       console.log(files);
       for (const csvFile of files) {
-        this.apiService.loadCsv(csvFile).subscribe((childRecord: ResaleHdbChildRecord[]) => {
-          const records = childRecord;
-          console.log(records.length);
-          this.rowData.update((currentArray) => [...(currentArray ?? []), ...records]);
-        });
+        this.apiService
+          .loadCsv(csvFile)
+          .subscribe((childRecord: ResaleHdbChildRecordInterface[]) => {
+            const records = childRecord;
+            console.log(records.length);
+            this.rowData.update((currentArray) => [...(currentArray ?? []), ...records]);
+          });
       }
     });
-    
   }
 
   async loadApi(totalRecords: number, datasetId: string) {
@@ -195,7 +233,7 @@ export class App implements OnInit {
       setTimeout(() => {
         this.apiService
           .getHdbResaleChildDataSet(datasetId, limit, offset, this.delayMS)
-          .subscribe((childData: ResaleHdbChildData) => {
+          .subscribe((childData: ResaleHdbChildDataInterface) => {
             const records = childData.result.records;
             console.log(records.length);
             this.apiChildResponseRecordDatasetId.set(childData.result.resource_id);
@@ -209,5 +247,14 @@ export class App implements OnInit {
         offset += limit;
       }, delay);
     }
+  }
+
+  async loadHdbPropertyInfo() {
+    this.apiService
+      .getHdbPropertyInformation()
+      .subscribe((records: HdbPropertyInformationInterface) => {
+        console.log(records);
+        this.rowHdbPropertyInfoData.set(records.result.records);
+      });
   }
 }

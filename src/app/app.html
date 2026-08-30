@@ -61,6 +61,25 @@ Combined Records: {{combinedRecords()}}
 </div>
 
 <br><br>
+
+<div class="content" style="width: 100%; height: 100%;">
+  <!-- The AG Grid component, with Dimensions, CSS Theme, Row Data, and Column Definition -->
+  <ag-grid-angular style="width: 100%; height: 500px;"
+    [rowData]="rowHdbPropertyInfoData()"
+    [columnDefs]="colDefHdbPropertyInfoData"
+    [defaultColDef]="defaultColDef"
+    [pagination]="true"
+    [paginationPageSize]="paginationPageSize"
+    [paginationPageSizeSelector]="paginationPageSizeSelector"
+    [paginationPanels]="paginationPanels"
+    [paginationNumberFormatter]="paginationNumberFormatter"
+    (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
+
+</div>
+
+<br><br>
+
 <app-map></app-map>
 
 

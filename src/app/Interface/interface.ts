@@ -1,14 +1,14 @@
-export interface ResaleHdbResponse {
+export interface ResaleHdbResponseInterface {
   code: number;
-  data: ResaleData;
+  data: ResaleDataInterface;
   errorMsg: string;
 }
 
-export interface ResaleData {
-  collectionMetadata: ResaleCollectionMetadata;
+export interface ResaleDataInterface {
+  collectionMetadata: ResaleCollectionMetadataInterface;
 }
 
-export interface ResaleCollectionMetadata {
+export interface ResaleCollectionMetadataInterface {
   collectionId: string;
   createdAt: string;
   name: string;
@@ -22,27 +22,27 @@ export interface ResaleCollectionMetadata {
   childDatasets: string[];
 }
 
-export interface ResaleHdbChildData {
+export interface ResaleHdbChildDataInterface {
   success: boolean;
-  result: ResaleHdbChildResult;
+  result: ResaleHdbChildResultInterface;
 }
 
-export interface ResaleHdbChildResult {
+export interface ResaleHdbChildResultInterface {
   resource_id: string;
-  fields: ResaleHdbChildField[];
-  records: ResaleHdbChildRecord[];
-  _links: ResaleHdbChildLinks;
+  fields: ResaleHdbChildFieldInterface[];
+  records: ResaleHdbChildRecordInterface[];
+  _links: ResaleHdbChildLinksInteface;
   total: number;
   limit: number;
   offset: number;
 }
 
-export interface ResaleHdbChildField {
+export interface ResaleHdbChildFieldInterface {
   type: string;
   id: string;
 }
 
-export interface ResaleHdbChildRecord {
+export interface ResaleHdbChildRecordInterface {
   _id: number;
   month: string;
   town: string;
@@ -57,12 +57,12 @@ export interface ResaleHdbChildRecord {
   resale_price: string;
 }
 
-export interface ResaleHdbChildLinks {
+export interface ResaleHdbChildLinksInteface {
   start: string;
   next: string;
 }
 
-export interface ResaleHdbDataRow extends ResaleHdbChildRecord {}
+export interface ResaleHdbDataRowInterface extends ResaleHdbChildRecordInterface {}
 
 export interface HdbExistingBuildingInterface {
   code: number;
@@ -70,4 +70,46 @@ export interface HdbExistingBuildingInterface {
     url: string;
   };
   errorMsg: string;
+}
+
+export interface HdbPropertyInformationInterface {
+  success: boolean;
+  result: {
+    resource_id: string;
+    fields: HdbPropertyInformationFieldInterface[];
+    records: HdbPropertyInformationRecordInterface[];
+  };
+}
+
+export interface HdbPropertyInformationFieldInterface {
+  type: string;
+  id: string;
+}
+
+export interface HdbPropertyInformationRecordInterface {
+  _id: number;
+  blk_no: string;
+  street: string;
+  max_floor_lvl: string;
+  year_completed: string;
+  residential: string;
+  commercial: string;
+  market_hawker: string;
+  miscellaneous: string;
+  multistorey_carpark: string;
+  precinct_pavilion: string;
+  bldg_contract_town: string;
+  total_dwelling_units: string;
+  '1room_sold': string;
+  '2room_sold': string;
+  '3room_sold': string;
+  '4room_sold': string;
+  '5room_sold': string;
+  exec_sold: string;
+  multigen_sold: string;
+  studio_apartment_sold: string;
+  '1room_rental': string;
+  '2room_rental': string;
+  '3room_rental': string;
+  other_room_rental: string;
 }

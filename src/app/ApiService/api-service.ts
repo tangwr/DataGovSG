@@ -2,10 +2,11 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
-  ResaleHdbResponse,
-  ResaleHdbChildData,
-  ResaleHdbChildRecord,
+  ResaleHdbResponseInterface,
+  ResaleHdbChildDataInterface,
+  ResaleHdbChildRecordInterface,
   HdbExistingBuildingInterface,
+  HdbPropertyInformationInterface,
 } from '../Interface/interface';
 import { timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -24,10 +25,10 @@ export class ApiService {
     'x-api-key': environment.apiKey,
   });
 
-  getHdbResaleData(): Observable<ResaleHdbResponse> {
+  getHdbResaleData(): Observable<ResaleHdbResponseInterface> {
     const collection_id = 189;
     const url = 'https://api-production.data.gov.sg/v2/public/api/collections/{}/metadata';
-    return this.httpClient.get<ResaleHdbResponse>(url.replace('{}', collection_id.toString()));
+    return this.httpClient.get<ResaleHdbResponseInterface>(url.replace('{}', collection_id.toString()));
   }
 
   getHdbResaleChildDataSet(
@@ -35,7 +36,7 @@ export class ApiService {
     limit: number,
     offset: number,
     delay: number,
-  ): Observable<ResaleHdbChildData> {
+  ): Observable<ResaleHdbChildDataInterface> {
     /*
     const headers = new HttpHeaders({
       'x-api-key': environment.apiKey,
@@ -51,11 +52,11 @@ export class ApiService {
       offset;
     console.log(url);
     return timer(delay).pipe(
-      switchMap(() => this.httpClient.get<ResaleHdbChildData>(url, { headers: this.headers })),
+      switchMap(() => this.httpClient.get<ResaleHdbChildDataInterface>(url, { headers: this.headers })),
     );
   }
 
-  loadCsv(csvFile: string): Observable<ResaleHdbChildRecord[]> {
+  loadCsv(csvFile: string): Observable<ResaleHdbChildRecordInterface[]> {
     const filePath = 'csv/' + csvFile;
     return this.httpClient
       .get(filePath, {
@@ -63,7 +64,7 @@ export class ApiService {
       })
       .pipe(
         map((csv) => {
-          const result = Papa.parse<ResaleHdbChildRecord>(csv, {
+          const result = Papa.parse<ResaleHdbChildRecordInterface>(csv, {
             header: true,
             skipEmptyLines: true,
           });
@@ -91,5 +92,11 @@ export class ApiService {
         return this.httpClient.get(response.data.url, { headers: this.headers });
       }),
     );
+  }
+
+  getHdbPropertyInformation(): Observable<HdbPropertyInformationInterface> {
+    const dataset_id = 'd_17f5382f26140b1fdae0ba2ef6239d2f';
+    const url = 'https://data.gov.sg/api/action/datastore_search?resource_id=' + dataset_id;
+    return this.httpClient.get<HdbPropertyInformationInterface>(url);
   }
 }
