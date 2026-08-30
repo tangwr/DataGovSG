@@ -27,7 +27,7 @@ export interface ResaleHdbChildData {
   result: ResaleHdbChildResult;
 }
 
-export interface ResaleHdbChildResult{
+export interface ResaleHdbChildResult {
   resource_id: string;
   fields: ResaleHdbChildField[];
   records: ResaleHdbChildRecord[];
@@ -62,5 +62,12 @@ export interface ResaleHdbChildLinks {
   next: string;
 }
 
-export interface ResaleHdbDataRow extends ResaleHdbChildRecord {
+export interface ResaleHdbDataRow extends ResaleHdbChildRecord {}
+
+export interface HdbExistingBuildingInterface {
+  code: number;
+  data: {
+    url: string;
+  };
+  errorMsg: string;
 }

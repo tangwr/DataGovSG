@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component } from '@angular/core';
 
 import Map from 'ol/Map';
@@ -13,6 +12,9 @@ import GeoJSON from 'ol/format/GeoJSON';
 
 import { fromLonLat, transformExtent } from 'ol/proj';
 
+import { ApiService } from './../ApiService/api-service';
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-map',
   imports: [],
@@ -22,7 +24,10 @@ import { fromLonLat, transformExtent } from 'ol/proj';
 export class MapComponent implements AfterViewInit {
   map!: Map;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private apiService: ApiService,
+  ) {}
 
   ngAfterViewInit(): void {
     const vectorSource = new VectorSource();
@@ -32,7 +37,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     const singaporeExtent = transformExtent([103.6, 1.15, 104.1, 1.5], 'EPSG:4326', 'EPSG:3857');
-    
+
     this.map = new Map({
       target: 'map',
 
@@ -51,12 +56,31 @@ export class MapComponent implements AfterViewInit {
       }),
     });
 
-    this.http.get('geoJson/HDBExistingBuilding.geojson').subscribe((data) => {
-      const features = new GeoJSON().readFeatures(data, {
-        featureProjection: 'EPSG:3857',
-      });
+    this.apiService.getHdbGeoJson().subscribe({
+      next: (geojson) => {
+        console.log('GeoJSON:', geojson);
 
-      vectorSource.addFeatures(features);
+        const features = new GeoJSON().readFeatures(geojson, {
+          featureProjection: 'EPSG:3857',
+        });
+
+        vectorSource.addFeatures(features);
+
+        console.log('Features:', features.length);
+      },
+
+      error: (error) => {
+        console.error('Failed to load GeoJSON:', error);
+        //Manually load
+        console.log('Load HDBExistingBuilding.geojson');
+        this.http.get('geoJson/HDBExistingBuilding.geojson').subscribe((data) => {
+          const features = new GeoJSON().readFeatures(data, {
+            featureProjection: 'EPSG:3857',
+          });
+
+          vectorSource.addFeatures(features);
+        });
+      },
     });
   }
 }

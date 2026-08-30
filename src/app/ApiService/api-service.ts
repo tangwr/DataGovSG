@@ -1,7 +1,7 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { ResaleHdbResponse, ResaleHdbChildData, ResaleHdbChildRecord } from '../Interface/interface';
+import { ResaleHdbResponse, ResaleHdbChildData, ResaleHdbChildRecord, HdbExistingBuildingInterface } from '../Interface/interface';
 import { timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import Papa from 'papaparse';
@@ -52,6 +52,24 @@ export class ApiService {
 
   getCsvFiles(): Observable<string[]> {
     return this.httpClient.get<string[]>('csv/csvFiles.json');
+  }
+
+  getHdbExistingBuilding(){
+    const url = "https://api-open.data.gov.sg/v1/public/api/datasets/d_16b157c52ed637edd6ba1232e026258d/poll-download";
+
+  }
+
+  getHdbGeoJson(): Observable<any> {
+    const apiUrl =
+    'https://api-open.data.gov.sg/v1/public/api/datasets/d_16b157c52ed637edd6ba1232e026258d/poll-download';
+
+    return this.httpClient
+      .get<HdbExistingBuildingInterface>(apiUrl)
+      .pipe(
+        switchMap(response => {
+          return this.httpClient.get(response.data.url);
+        })
+      );
   }
 
 }
