@@ -31,7 +31,7 @@ export interface ResaleHdbChildResultInterface {
   resource_id: string;
   fields: ResaleHdbChildFieldInterface[];
   records: ResaleHdbChildRecordInterface[];
-  _links: ResaleHdbChildLinksInteface;
+  _links: LinksInteface;
   total: number;
   limit: number;
   offset: number;
@@ -57,7 +57,7 @@ export interface ResaleHdbChildRecordInterface {
   resale_price: string;
 }
 
-export interface ResaleHdbChildLinksInteface {
+export interface LinksInteface {
   start: string;
   next: string;
 }
@@ -78,6 +78,8 @@ export interface HdbPropertyInformationInterface {
     resource_id: string;
     fields: HdbPropertyInformationFieldInterface[];
     records: HdbPropertyInformationRecordInterface[];
+    _links: LinksInteface;
+    total: number;
   };
 }
 

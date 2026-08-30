@@ -19,7 +19,7 @@ import {
   PaginationNumberFormatterParams,
   PaginationPanel,
 } from 'ag-grid-community';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, toArray } from 'rxjs';
 import { MapComponent } from './map/map';
 // Enable extended validations only for development
 
@@ -133,6 +133,7 @@ export class App implements OnInit {
 
   delayMS = 1500;
   combinedRecords = signal<number>(0);
+  totalHdbPropertyInfo = signal<number>(0);
 
   paginationNumberFormatter: PaginationNumberFormatter = (
     params: PaginationNumberFormatterParams,
@@ -250,11 +251,36 @@ export class App implements OnInit {
   }
 
   async loadHdbPropertyInfo() {
-    this.apiService
-      .getHdbPropertyInformation()
-      .subscribe((records: HdbPropertyInformationInterface) => {
-        console.log(records);
-        this.rowHdbPropertyInfoData.set(records.result.records);
-      });
+    let offset = 0;
+    
+    const limit = 5000;
+    const delay = this.delayMS;
+    const dataset_id = 'd_17f5382f26140b1fdae0ba2ef6239d2f';
+
+    const records = await firstValueFrom(
+      this.apiService.getHdbPropertyInformation(limit, offset, delay)
+    );
+
+    let totalRecords = records.result.total;
+    this.totalHdbPropertyInfo.set(totalRecords);
+
+    while (offset < totalRecords) {
+      await this.setDelay(delay);
+      console.log('loadHdbPropertyInfo() | Dataset Id: ' + dataset_id + ' | offset: ' + offset + ' | totalRecords: ' + totalRecords);
+
+      setTimeout(() => {
+        this.apiService
+          .getHdbPropertyInformation(limit, offset, delay)
+          .subscribe((records: HdbPropertyInformationInterface) => {
+            console.log(records);
+            this.rowHdbPropertyInfoData.update((currentArray) => [
+              ...(currentArray ?? []),
+              ...records.result.records,
+            ]);
+          });
+          
+          offset += limit;
+      }, delay);
+    }
   }
 }

@@ -28,8 +28,9 @@ export class ApiService {
   getHdbResaleData(): Observable<ResaleHdbResponseInterface> {
     const collection_id = 189;
     const url = 'https://api-production.data.gov.sg/v2/public/api/collections/{}/metadata';
-    return this.httpClient.get<ResaleHdbResponseInterface>(url.replace('{}', collection_id.toString()));
-
+    return this.httpClient.get<ResaleHdbResponseInterface>(
+      url.replace('{}', collection_id.toString()),
+    );
   }
 
   getHdbResaleChildDataSet(
@@ -38,7 +39,6 @@ export class ApiService {
     offset: number,
     delay: number,
   ): Observable<ResaleHdbChildDataInterface> {
-
     /*
     const headers = new HttpHeaders({
       'x-api-key': environment.apiKey,
@@ -54,12 +54,13 @@ export class ApiService {
       offset;
     console.log(url);
     return timer(delay).pipe(
-      switchMap(() => this.httpClient.get<ResaleHdbChildDataInterface>(url, { headers: this.headers })),
+      switchMap(() =>
+        this.httpClient.get<ResaleHdbChildDataInterface>(url, { headers: this.headers }),
+      ),
     );
   }
 
   loadCsv(csvFile: string): Observable<ResaleHdbChildRecordInterface[]> {
-
     const filePath = 'csv/' + csvFile;
     return this.httpClient
       .get(filePath, {
@@ -68,7 +69,6 @@ export class ApiService {
       .pipe(
         map((csv) => {
           const result = Papa.parse<ResaleHdbChildRecordInterface>(csv, {
-
             header: true,
             skipEmptyLines: true,
           });
@@ -98,9 +98,25 @@ export class ApiService {
     );
   }
 
-  getHdbPropertyInformation(): Observable<HdbPropertyInformationInterface> {
+  getHdbPropertyInformation(
+    limit: number,
+    offset: number,
+    delay: number,
+  ): Observable<HdbPropertyInformationInterface> {
     const dataset_id = 'd_17f5382f26140b1fdae0ba2ef6239d2f';
-    const url = 'https://data.gov.sg/api/action/datastore_search?resource_id=' + dataset_id;
-    return this.httpClient.get<HdbPropertyInformationInterface>(url);
+    let url =
+      'https://data.gov.sg/api/action/datastore_search?resource_id=' +
+      dataset_id +
+      '&limit=' +
+      limit +
+      '&offset=' +
+      offset;
+
+    console.log("getHdbPropertyInformation" + " | Limit: " + limit + " | Offset: " + offset);
+    return timer(delay).pipe(
+      switchMap(() =>
+        this.httpClient.get<HdbPropertyInformationInterface>(url, { headers: this.headers }),
+      ),
+    );
   }
 }
