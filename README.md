@@ -4,8 +4,8 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Deployment to github pages
 ```bash
-ng build --base-href /HdbResale/
-npx angular-cli-ghpages --dir=dist/HdbResale/browser --repo=https://github.com/tangwr/HdbResale.git
+ng build --base-href /DataGovSG/
+npx angular-cli-ghpages --dir=dist/DataGovSG/browser --repo=https://github.com/tangwr/DataGovSG.git
 ```
 
 ## Development server

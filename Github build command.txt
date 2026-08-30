@@ -1,2 +1,2 @@
-ng build --base-href /HdbResale/
-npx angular-cli-ghpages --dir=dist/HdbResale/browser --repo=https://github.com/tangwr/HdbResale.git
+ng build --base-href /DataGovSG/
+npx angular-cli-ghpages --dir=dist/DataGovSG/browser --repo=https://github.com/tangwr/DataGovSG.git
