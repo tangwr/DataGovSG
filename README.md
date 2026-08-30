@@ -2,6 +2,12 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
 
+## Deployment to github pages
+```bash
+ng build --base-href /HdbResale/
+npx angular-cli-ghpages --dir=dist/HdbResale/browser --repo=https://github.com/tangwr/HdbResale.git
+```
+
 ## Development server
 
 To start a local development server, run:
