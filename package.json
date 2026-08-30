@@ -20,6 +20,8 @@
     "@simple-table/angular": "^4.1.8",
     "ag-grid-angular": "^36.1.0",
     "ag-grid-community": "^36.1.0",
+    "leaflet": "^1.9.4",
+    "ol": "^10.10.0",
     "papaparse": "^5.7.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
@@ -28,6 +30,7 @@
     "@angular/build": "^21.2.0",
     "@angular/cli": "^21.2.0",
     "@angular/compiler-cli": "^21.2.0",
+    "@types/leaflet": "^1.9.22",
     "@types/papaparse": "^5.5.2",
     "angular-cli-ghpages": "^3.1.0",
     "jsdom": "^28.0.0",

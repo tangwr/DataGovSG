@@ -14,6 +14,7 @@ import {
   PaginationPanel,
 } from 'ag-grid-community';
 import { firstValueFrom } from 'rxjs';
+import { MapComponent } from "./map/map";
 // Enable extended validations only for development
 
 // Register all Community features
@@ -29,7 +30,7 @@ interface IRow {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AgGridAngular],
+  imports: [RouterOutlet, AgGridAngular, MapComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
