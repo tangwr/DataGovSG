@@ -258,13 +258,13 @@ export class App implements OnInit {
 
   async loadHdbPropertyInfo() {
     let offset = 0;
-    
+
     const limit = 5000;
     const delay = this.delayMS;
     const dataset_id = 'd_17f5382f26140b1fdae0ba2ef6239d2f';
 
     const records = await firstValueFrom(
-      this.apiService.getHdbPropertyInformation(limit, offset, delay)
+      this.apiService.getHdbPropertyInformation(limit, offset, delay),
     );
 
     let totalRecords = records.result.total;
@@ -272,7 +272,14 @@ export class App implements OnInit {
 
     while (offset < totalRecords) {
       await this.setDelay(delay);
-      console.log('loadHdbPropertyInfo() | Dataset Id: ' + dataset_id + ' | offset: ' + offset + ' | totalRecords: ' + totalRecords);
+      console.log(
+        'loadHdbPropertyInfo() | Dataset Id: ' +
+          dataset_id +
+          ' | offset: ' +
+          offset +
+          ' | totalRecords: ' +
+          totalRecords,
+      );
 
       setTimeout(() => {
         this.apiService
@@ -284,8 +291,8 @@ export class App implements OnInit {
               ...records.result.records,
             ]);
           });
-          
-          offset += limit;
+
+        offset += limit;
       }, delay);
 
       setTimeout(() => {
