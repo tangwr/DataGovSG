@@ -14,6 +14,7 @@ import {
   ColDef,
   GridApi,
   GridReadyEvent,
+  GridOptions,
   PaginationModule,
   PaginationNumberFormatter,
   PaginationNumberFormatterParams,
@@ -143,6 +144,11 @@ export class App implements OnInit {
 
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
+  }
+
+  onGridReadyAutoSize(params: GridReadyEvent) {
+    this.gridApi = params.api;
+    params.api.autoSizeAllColumns();
   }
 
   onSearch(event: Event) {
@@ -281,6 +287,10 @@ export class App implements OnInit {
           
           offset += limit;
       }, delay);
+
+      setTimeout(() => {
+        this.gridApi.autoSizeAllColumns();
+      });
     }
   }
 }
