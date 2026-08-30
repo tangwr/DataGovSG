@@ -11,13 +11,14 @@ import VectorSource from 'ol/source/Vector';
 
 import GeoJSON from 'ol/format/GeoJSON';
 
+import { fromLonLat, transformExtent } from 'ol/proj';
+
 @Component({
   selector: 'app-map',
   imports: [],
   templateUrl: './map.html',
   styleUrl: './map.css',
 })
-
 export class MapComponent implements AfterViewInit {
   map!: Map;
 
@@ -29,6 +30,8 @@ export class MapComponent implements AfterViewInit {
     const vectorLayer = new VectorLayer({
       source: vectorSource,
     });
+
+    const singaporeExtent = transformExtent([103.6, 1.15, 104.1, 1.5], 'EPSG:4326', 'EPSG:3857');
 
     this.map = new Map({
       target: 'map',
@@ -42,12 +45,12 @@ export class MapComponent implements AfterViewInit {
       ],
 
       view: new View({
-        center: [11525900, 149000],
-        zoom: 12,
+        center: fromLonLat([103.8198, 1.3521]),
+        zoom: 11,
+        extent: singaporeExtent,
       }),
     });
 
-    
     this.http.get('geoJson/HDBExistingBuilding.geojson').subscribe((data) => {
       const features = new GeoJSON().readFeatures(data, {
         featureProjection: 'EPSG:3857',
@@ -55,6 +58,5 @@ export class MapComponent implements AfterViewInit {
 
       vectorSource.addFeatures(features);
     });
-    
   }
 }
