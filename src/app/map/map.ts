@@ -32,7 +32,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     const singaporeExtent = transformExtent([103.6, 1.15, 104.1, 1.5], 'EPSG:4326', 'EPSG:3857');
-
+    
     this.map = new Map({
       target: 'map',
 
