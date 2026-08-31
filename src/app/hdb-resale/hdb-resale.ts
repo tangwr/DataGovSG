@@ -41,7 +41,6 @@ interface IRow {
   templateUrl: './hdb-resale.html',
   styleUrl: './hdb-resale.css',
 })
-
 export class HdbResale implements OnInit {
   protected readonly title = signal('HdbResale');
   private gridApi!: GridApi;
@@ -145,8 +144,24 @@ export class HdbResale implements OnInit {
 
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
+
     params.api.autoSizeAllColumns();
-    params.api.sizeColumnsToFit();
+
+    const gridElement = document.querySelector('ag-grid-angular');
+
+    if (!gridElement) return;
+
+    const gridWidth = gridElement.clientWidth;
+
+    const columns = params.api.getColumns();
+
+    if (!columns) return;
+
+    const totalColumnWidth = columns.reduce((total, column) => total + column.getActualWidth(), 0);
+
+    if (totalColumnWidth < gridWidth) {
+      params.api.sizeColumnsToFit();
+    }
   }
 
   onGridReadyAutoSize(params: GridReadyEvent) {
