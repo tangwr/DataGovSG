@@ -145,6 +145,8 @@ export class HdbResale implements OnInit {
 
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
+    params.api.autoSizeAllColumns();
+    params.api.sizeColumnsToFit();
   }
 
   onGridReadyAutoSize(params: GridReadyEvent) {
